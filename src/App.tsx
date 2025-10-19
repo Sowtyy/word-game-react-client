@@ -75,7 +75,7 @@ function App() {
       <div className='p-[15px_1.5%_0] h-full gap-5 flex flex-col'>
         <div className='mx-5 grid grid-cols-[1fr_min-content]'>
           <Label className='col-1'>Words used: {wordsUsed.length}</Label>
-          <div className='flex flex-row gap-3'>
+          <div className='flex flex-row gap-2'>
             <Button onClick={on_reset} variant='ghost' className='border border-transparent hover:border hover:border-destructive' title='Reset'><LucideRefreshCcw/></Button>
             <Separator orientation='vertical'/>
             <SettingsDialog className='col-2'></SettingsDialog>
