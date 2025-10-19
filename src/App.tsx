@@ -72,7 +72,7 @@ function App() {
   
   return (
     <ThemeProvider storageKey='word-game-theme'>
-      <div className='p-[15px_1.5%_0] h-full gap-5 flex flex-col'>
+      <div className='p-[15px_1.5%_0] h-full gap-4 flex flex-col'>
         <div className='mx-5 grid grid-cols-[1fr_min-content]'>
           <Label className='col-1'>Words used: {wordsUsed.length}</Label>
           <div className='flex flex-row gap-2'>
