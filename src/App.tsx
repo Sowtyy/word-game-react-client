@@ -1,13 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import './App.css';
 import { ThemeProvider } from './components/ThemeProvider';
-import { Separator } from './components/ui/separator';
-import { Label } from './components/ui/label';
-import { Button } from './components/ui/button';
-import { SettingsDialog } from './components/SettingsDialog';
-import { LucideRefreshCcw } from 'lucide-react';
 import { WordInput } from './components/WordInput';
 import { UsedWordsList } from './components/UsedWordsList';
+import { UpperContainer } from './components/UpperContainer';
 
 function App() {
   const [usedWords, setUsedWords] = useState<string[]>([]);
@@ -46,14 +42,7 @@ function App() {
   return (
     <ThemeProvider storageKey='word-game-theme'>
       <div className='p-[15px_1.5%_0] h-full gap-4 flex flex-col'>
-        <div className='mx-5 grid grid-cols-[1fr_min-content]'>
-          <Label className='col-1'>Words used: {usedWords.length}</Label>
-          <div className='flex flex-row gap-2'>
-            <Button onClick={on_reset} variant='ghost' className='border border-transparent hover:border hover:border-destructive' title='Reset'><LucideRefreshCcw/></Button>
-            <Separator orientation='vertical'/>
-            <SettingsDialog className='col-2'></SettingsDialog>
-          </div>
-        </div>
+        <UpperContainer className='mx-5' usedWords={usedWords} resetUsedWords={on_reset}></UpperContainer>
         <div className='flex flex-col gap-5 h-full overflow-hidden'>
           <UsedWordsList className='flex-grow' usedWords={usedWords}></UsedWordsList>
           <WordInput className='mb-5 h-auto shrink-0' isSendingInput={isSendingInput} firstCharacterRef={firstCharacterRef} submitWord={on_word_submit}></WordInput>
