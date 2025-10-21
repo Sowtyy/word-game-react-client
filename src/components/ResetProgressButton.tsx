@@ -22,7 +22,7 @@ export function ResetProgressButton({className, resetUsedWords}: ResetProgressBu
         </AlertDialogHeader>
         <AlertDialogFooter className='flex-col'>
           <AlertDialogAction asChild>
-            <Button variant='destructive' onClick={resetUsedWords}>Reset</Button>
+            <Button variant='destructive' onClick={resetUsedWords} className='bg-destructive'>Reset</Button>
           </AlertDialogAction>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
         </AlertDialogFooter>
