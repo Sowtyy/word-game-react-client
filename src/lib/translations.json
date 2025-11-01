@@ -37,8 +37,8 @@
       "theme_settings_dark": "Тёмная",
       "theme_settings_light": "Светлая",
       "language": "Язык",
-      "language_english": "Английский",
-      "language_russian": "Русский"
+      "language_en": "Английский",
+      "language_ru": "Русский"
     }
   }
 }
