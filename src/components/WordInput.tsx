@@ -3,6 +3,7 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { LoaderCircle } from "lucide-react";
 import { Alert, AlertTitle } from "./ui/alert";
+import { Trans, useTranslation } from "react-i18next";
 
 interface WordInputProps {
   className?: string,
@@ -14,6 +15,7 @@ interface WordInputProps {
 export function WordInput({className, isSendingInput, firstCharacterRef, submitWord}: WordInputProps) {
   const [input, setInput] = useState("");
   const [toShowAlert, setToShowAlert] = useState(false);
+  const {t} = useTranslation();
   
   async function on_word_submit() {
     if (isSendingInput) return;
@@ -51,17 +53,19 @@ export function WordInput({className, isSendingInput, firstCharacterRef, submitW
   return (
     <div className={'flex flex-col gap-4 ' + className}>
       <div className='flex gap-2'>
-        <Input id='word-input-area' className={toShowAlert ? 'focus:border-destructive!' : ''} onChange={on_input_change} placeholder={`Start with ${firstCharacterRef.current || "any"} character`} onKeyDown={on_input_key_down} value={input}></Input>
+        <Input id='word-input-area' className={toShowAlert ? 'focus:border-destructive!' : ''} onChange={on_input_change} placeholder={t(firstCharacterRef.current ? "word_input_placeholder" : "word_input_placeholder_default", {character: firstCharacterRef.current})} onKeyDown={on_input_key_down} value={input}></Input>
         <Button disabled={toShowAlert || isSendingInput} type='submit' variant='outline' onClick={on_word_submit}>
           {isSendingInput ? (
             <LoaderCircle className='animate-spin'/>
           ) : undefined}
-          Submit
+          {t("submit")}
         </Button>
       </div>
       {toShowAlert ? (
         <Alert variant='destructive'>
-          <AlertTitle>Word should start with <b>{firstCharacterRef.current}</b>!</AlertTitle>
+          <AlertTitle>
+            <Trans i18nKey='input_alert' values={{character: firstCharacterRef.current}} components={{bold: <b/>}}></Trans>
+          </AlertTitle>
         </Alert>
       ) : undefined}
     </div>

@@ -1,0 +1,44 @@
+{
+  "en": {
+    "translation": {
+      "words_used": "Words used: {{count}}",
+      "submit": "Submit",
+      "word_input_placeholder": "Start with {{character}} character",
+      "word_input_placeholder_default": "Start with any character",
+      "input_alert": "Word should start with <bold>{{character}}</bold>!",
+      "are_you_sure": "Are you sure?",
+      "reset_progress_alert_description": "This will reset all your progress.",
+      "reset": "Reset",
+      "cancel": "Cancel",
+      "settings": "Settings",
+      "theme": "Theme",
+      "theme_settings_system": "System",
+      "theme_settings_dark": "Dark",
+      "theme_settings_light": "Light",
+      "language": "Language",
+      "language_english": "English",
+      "language_russian": "Russian"
+    }
+  },
+  "ru": {
+    "translation": {
+      "words_used": "Слов использовано: {{count}}",
+      "submit": "Отправить",
+      "word_input_placeholder": "Начните с буквы {{character}}",
+      "word_input_placeholder_default": "Начните с любой буквы",
+      "input_alert": "Слово должно начинаться с <bold>{{character}}</bold>!",
+      "are_you_sure": "Вы уверены?",
+      "reset_progress_alert_description": "Это сбросит весь ваш прогресс.",
+      "reset": "Сбросить",
+      "cancel": "Отменить",
+      "settings": "Настройки",
+      "theme": "Тема",
+      "theme_settings_system": "Системная",
+      "theme_settings_dark": "Тёмная",
+      "theme_settings_light": "Светлая",
+      "language": "Язык",
+      "language_english": "Английский",
+      "language_russian": "Русский"
+    }
+  }
+}
