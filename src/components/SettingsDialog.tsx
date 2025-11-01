@@ -2,11 +2,11 @@ import { Button } from './ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
 import * as Lucide from 'lucide-react';
 import { Label } from './ui/label';
-import { Combobox } from './Combobox';
 import { useTheme, type Theme } from './ThemeProvider';
 import { useContext } from 'react';
 import { LanguageContext, type Language } from './LanguageProvider';
 import { useTranslation } from 'react-i18next';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 
 interface SettingsDialogProps {
   className?: string,
@@ -40,11 +40,28 @@ export function SettingsDialog({className}: SettingsDialogProps) {
         </DialogHeader>
         <div className='grid grid-cols-[1fr_min-content]'>
           <Label className='col-1'>{t("theme")}</Label>
-          <Combobox onSelect={on_theme_change} className='col-2' label={theme[0].toUpperCase() + theme.slice(1)} options={["System", "Light", "Dark"]}></Combobox>
+          <Select onValueChange={value => on_theme_change(value)}>
+            <SelectTrigger className='col-2'>
+              <SelectValue placeholder={t("theme_settings_" + theme)}></SelectValue>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value='system'>{t("theme_settings_system")}</SelectItem>
+              <SelectItem value='dark'>{t("theme_settings_dark")}</SelectItem>
+              <SelectItem value='light'>{t("theme_settings_light")}</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
         <div className='grid grid-cols-[1fr_min-content]'>
           <Label className='col-1'>{t("language")}</Label>
-          <Combobox onSelect={on_language_change} className='col-2' label={languageContext.language[0].toUpperCase() + languageContext.language.slice(1)} options={["En", "Ru"]}></Combobox>
+          <Select onValueChange={value => on_language_change(value)}>
+            <SelectTrigger className='col-2'>
+              <SelectValue placeholder={t("language_" + languageContext.language)}></SelectValue>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value='en'>English</SelectItem>
+              <SelectItem value='ru'>Русский</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
       </DialogContent>
     </Dialog>

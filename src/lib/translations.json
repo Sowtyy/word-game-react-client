@@ -16,8 +16,8 @@
       "theme_settings_dark": "Dark",
       "theme_settings_light": "Light",
       "language": "Language",
-      "language_english": "English",
-      "language_russian": "Russian"
+      "language_en": "English",
+      "language_ru": "Russian"
     }
   },
   "ru": {
