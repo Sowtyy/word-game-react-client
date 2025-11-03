@@ -5,22 +5,23 @@ import { WordInput } from './components/WordInput';
 import { UsedWordsList } from './components/UsedWordsList';
 import { UpperContainer } from './components/UpperContainer';
 import { LanguageProvider } from './components/LanguageProvider';
+import { WordGame } from './lib/word-game';
 
 function App() {
   const [usedWords, setUsedWords] = useState<string[]>([]);
   const [isSendingInput, setIsSendingInput] = useState(false);
   const firstCharacterRef = useRef("");
+  const wordsRef = useRef<string[]>([]);
 
   useEffect(() => {
     scroll_used_words_to_bottom();
   }, [usedWords]);
   
   async function on_word_submit(value: string) {
+    value = value.toLowerCase();
     setIsSendingInput(true);
-    await send_word_input(value);
+    process_word_input(value);
     setIsSendingInput(false);
-    setUsedWords([...usedWords, value]);
-    firstCharacterRef.current = value.at(-1)?.toUpperCase() ?? "";
     scroll_used_words_to_bottom();
     document.getElementById("word-input-area")?.focus();
   }
@@ -36,8 +37,25 @@ function App() {
     element.scroll({left: 0, top: element.scrollHeight, behavior: "smooth"});
   }
 
-  function send_word_input(_input: string) {
-    return new Promise<void>(resolve => setTimeout(() => resolve(), 50));
+  function process_word_input(input: string) {    
+    const newUsedWords = [...usedWords, input];
+    setUsedWords(newUsedWords);
+    
+    let newFirstCharacter = "";
+    let newWord = "";
+
+    const ignore: string[] = [];
+
+    for (let i = 0; !newWord && i < input.length; i++) {
+      newFirstCharacter = WordGame.get_next_first_character(input, ignore);
+      newWord = WordGame.get_random_available_word(newFirstCharacter, newUsedWords, wordsRef.current, firstCharacterRef.current);
+      ignore.push(newFirstCharacter);
+    }
+
+    if (!newWord) throw new Error("Couldn't find suitable new word");
+
+    setUsedWords(usedWords => [...usedWords, newWord]);
+    firstCharacterRef.current = WordGame.get_next_first_character(newWord).toUpperCase();
   }
   
   return (
@@ -47,7 +65,7 @@ function App() {
           <UpperContainer className='mx-5' usedWords={usedWords} resetUsedWords={on_reset}></UpperContainer>
           <div className='flex flex-col gap-5 h-full overflow-hidden'>
             <UsedWordsList className='flex-grow' usedWords={usedWords}></UsedWordsList>
-            <WordInput className='mb-5 h-auto shrink-0' isSendingInput={isSendingInput} firstCharacterRef={firstCharacterRef} submitWord={on_word_submit}></WordInput>
+            <WordInput className='mb-5 h-auto shrink-0' isSendingInput={isSendingInput} firstCharacterRef={firstCharacterRef} usedWords={usedWords} words={wordsRef.current} submitWord={on_word_submit}></WordInput>
           </div>
         </div>
       </LanguageProvider>
