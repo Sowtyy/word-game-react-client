@@ -14,7 +14,7 @@ export function UsedWordsList({className, usedWords}: UsedWordsProps) {
       <div id='used-words' className='flex flex-col-reverse h-full box-border'>
         {usedWords.slice().reverse().map((word, index) => (
           <React.Fragment key={`${index}-${word}`}>
-            <Label className='h-[40px] mx-1'>{word}</Label>
+            <Label className='h-[40px] mx-1'>{word.at(0)?.toUpperCase() + word.slice(1).toLowerCase()}</Label>
             <Separator/>
           </React.Fragment>
         ))}
