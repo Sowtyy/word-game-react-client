@@ -10,8 +10,8 @@ import { WordGame } from './lib/word-game';
 function App() {
   const [usedWords, setUsedWords] = useState<string[]>([]);
   const [isSendingInput, setIsSendingInput] = useState(false);
+  const [words, setWords] = useState<string[]>([]);
   const firstCharacterRef = useRef("");
-  const wordsRef = useRef<string[]>([]);
 
   useEffect(() => {
     scroll_used_words_to_bottom();
@@ -48,7 +48,7 @@ function App() {
 
     for (let i = 0; !newWord && i < input.length; i++) {
       newFirstCharacter = WordGame.get_next_first_character(input, ignore);
-      newWord = WordGame.get_random_available_word(newFirstCharacter, newUsedWords, wordsRef.current, firstCharacterRef.current);
+      newWord = WordGame.get_random_available_word(newFirstCharacter, newUsedWords, words, firstCharacterRef.current);
       ignore.push(newFirstCharacter);
     }
 
@@ -62,10 +62,10 @@ function App() {
     <ThemeProvider storageKey='word-game-theme'>
       <LanguageProvider storageName='word-game-language'>
         <div className='p-[15px_1.5%_0] h-full gap-4 flex flex-col'>
-          <UpperContainer className='mx-5' usedWords={usedWords} resetUsedWords={on_reset}></UpperContainer>
+          <UpperContainer className='mx-5' usedWords={usedWords} resetUsedWords={on_reset} updateWords={setWords}></UpperContainer>
           <div className='flex flex-col gap-5 h-full overflow-hidden'>
             <UsedWordsList className='flex-grow' usedWords={usedWords}></UsedWordsList>
-            <WordInput className='mb-5 h-auto shrink-0' isSendingInput={isSendingInput} firstCharacterRef={firstCharacterRef} usedWords={usedWords} words={wordsRef.current} submitWord={on_word_submit}></WordInput>
+            <WordInput className='mb-5 h-auto shrink-0' isSendingInput={isSendingInput} firstCharacterRef={firstCharacterRef} usedWords={usedWords} words={words} submitWord={on_word_submit}></WordInput>
           </div>
         </div>
       </LanguageProvider>
