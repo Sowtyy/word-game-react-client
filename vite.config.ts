@@ -26,6 +26,10 @@ export default defineConfig({
       "/api": {
         target: "http://localhost:8080",
         changeOrigin: true
+      },
+      "/manifest.json": {
+        target: "http://localhost:8080",
+        changeOrigin: true
       }
     }
   }
