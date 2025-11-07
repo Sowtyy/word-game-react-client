@@ -1,22 +1,23 @@
 import { LoaderCircle, LucideDownload } from "lucide-react";
 import { Button } from "./ui/button";
-import { useState } from "react";
+import { useState, type RefObject } from "react";
 import { useTranslation } from "react-i18next";
+import { WordsLoader } from "@/lib/words-loader";
 
 interface UpdateButtonProps {
   className?: string,
-  updateWords: (value: string[]) => void
+  updateWords: (value: string[]) => void,
+  wordsLoaderRef: RefObject<WordsLoader>
 };
 
-export function UpdateButton({className, updateWords}: UpdateButtonProps) {
+export function UpdateButton({className, updateWords, wordsLoaderRef}: UpdateButtonProps) {
   const [isUpdating, setIsUpdating] = useState(false);
   const {t} = useTranslation();
   
   async function update_words() {
     if (isUpdating) return;
     setIsUpdating(true);
-    const response = await fetch("api/words.json");
-    const newWords = await response.json() as string[];
+    const newWords = await wordsLoaderRef.current.fetch_words_then_save();
     updateWords(newWords);
     setIsUpdating(false);
   }

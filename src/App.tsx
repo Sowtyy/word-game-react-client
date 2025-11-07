@@ -6,13 +6,24 @@ import { UsedWordsList } from './components/UsedWordsList';
 import { UpperContainer } from './components/UpperContainer';
 import { LanguageProvider } from './components/LanguageProvider';
 import { WordGame } from './lib/word-game';
+import { WordsLoader } from './lib/words-loader';
 
 function App() {
   const [usedWords, setUsedWords] = useState<string[]>([]);
   const [isSendingInput, setIsSendingInput] = useState(false);
   const [words, setWords] = useState<string[]>([]);
+  const [areWordsUpdateable, setAreWordsUpdateable] = useState(false);
   const firstCharacterRef = useRef("");
+  const wordsLoaderRef = useRef(new WordsLoader({storeName: "word-game", storageName: "words"}));
 
+  useEffect(() => {
+    (async () => {
+      const savedWords = await wordsLoaderRef.current.load_words();
+      setWords(savedWords);
+      setAreWordsUpdateable(await wordsLoaderRef.current.check_words_updates());
+    })();
+  }, []);
+  
   useEffect(() => {
     scroll_used_words_to_bottom();
   }, [usedWords]);
@@ -57,12 +68,17 @@ function App() {
     setUsedWords(usedWords => [...usedWords, newWord]);
     firstCharacterRef.current = WordGame.get_next_first_character(newWord).toUpperCase();
   }
+
+  function set_words(words: string[]) {
+    setWords(words);
+    setAreWordsUpdateable(false);
+  }
   
   return (
     <ThemeProvider storageKey='word-game-theme'>
       <LanguageProvider storageName='word-game-language'>
         <div className='p-[15px_1.5%_0] h-full gap-4 flex flex-col'>
-          <UpperContainer className='mx-5' usedWords={usedWords} resetUsedWords={on_reset} updateWords={setWords}></UpperContainer>
+          <UpperContainer className='mx-5' usedWords={usedWords} resetUsedWords={on_reset} updateWords={set_words} wordsLoaderRef={wordsLoaderRef} toShowUpdateButton={areWordsUpdateable}></UpperContainer>
           <div className='flex flex-col gap-5 h-full overflow-hidden'>
             <UsedWordsList className='flex-grow' usedWords={usedWords}></UsedWordsList>
             <WordInput className='mb-5 h-auto shrink-0' isSendingInput={isSendingInput} firstCharacterRef={firstCharacterRef} usedWords={usedWords} words={words} submitWord={on_word_submit}></WordInput>
