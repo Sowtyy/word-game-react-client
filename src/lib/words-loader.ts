@@ -27,8 +27,12 @@ export class WordsLoader {
   }
 
   private async _fetch_words_timestamp() {
-    const response = await this._fetch_words({method: "HEAD"});
-    const rawLastModified = response.headers.get("Last-Modified");
+    let response: Response | undefined = undefined;
+    try {
+      response = await this._fetch_words({method: "HEAD"});
+    }
+    catch (error) {}
+    const rawLastModified = response?.ok ? response.headers.get("Last-Modified") : null;
     if (!rawLastModified) return;
     return new Date(rawLastModified).getTime();
   }
