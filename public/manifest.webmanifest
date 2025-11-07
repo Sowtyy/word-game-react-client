@@ -1,0 +1,37 @@
+{
+  "name": "Word Game | SWTY",
+  "short_name": "Word Game",
+  "icons": [
+    {
+      "src": "../images/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "../images/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ],
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "id": "71f3b411-ba50-4127-823b-18061801250a",
+  "description": "A word game.",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "dir": "ltr",
+  "lang": "en",
+  "orientation": "natural",
+  "display_override": [
+    "window-controls-overlay",
+    "standalone",
+    "minimal-ui",
+    "browser"
+  ],
+  "prefer_related_applications": false,
+  "categories": [
+    "entertainment",
+    "games"
+  ]
+}
