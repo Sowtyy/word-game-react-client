@@ -24,10 +24,7 @@ function App() {
       wordsLoaderRef.current.check_words_updates().then(updateable => setAreWordsUpdateable(updateable));
 
       await Promise.allSettled([usedWordsPromise, wordsPromise]);
-
-      const mainElement = document.getElementById("main-container");
-      mainElement?.animate({opacity: [0, 1]}, {duration: 500});
-      mainElement?.classList.remove("opacity-0");
+      show_main_container();
     })();
   }, []);
   
@@ -54,6 +51,12 @@ function App() {
     const element = document.querySelector("#used-words-main-container div[data-radix-scroll-area-viewport]");
     if (!element) return;
     element.scroll({left: 0, top: element.scrollHeight, behavior: "smooth"});
+  }
+
+  function show_main_container() {
+    const mainElement = document.getElementById("main-container");
+    mainElement?.animate({opacity: [0, 1]}, {duration: 500});
+    mainElement?.classList.remove("opacity-0");
   }
 
   function process_word_input(input: string) {    
