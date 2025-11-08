@@ -18,11 +18,12 @@ function App() {
 
   useEffect(() => {
     (async () => {
-      setUsedWords(await wordsLoaderRef.current.load_used_words());
+      const usedWordsPromise = wordsLoaderRef.current.load_used_words().then(savedUsedWords => setUsedWords(savedUsedWords));
+      const wordsPromise = wordsLoaderRef.current.load_words().then(savedWords => setWords(savedWords));
 
-      const savedWords = await wordsLoaderRef.current.load_words();
-      setWords(savedWords);
-      setAreWordsUpdateable(await wordsLoaderRef.current.check_words_updates());
+      wordsLoaderRef.current.check_words_updates().then(updateable => setAreWordsUpdateable(updateable));
+
+      await Promise.allSettled([usedWordsPromise, wordsPromise]);
 
       const mainElement = document.getElementById("main-container");
       mainElement?.animate({opacity: [0, 1]}, {duration: 500});
