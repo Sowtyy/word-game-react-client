@@ -17,12 +17,19 @@ function App() {
   const wordsLoaderRef = useRef(new WordsLoader({storeName: "word-game", storageName: "words"}));
 
   useEffect(() => {
-    const usedWordsPromise = wordsLoaderRef.current.load_used_words().then(savedUsedWords => setUsedWords(savedUsedWords));
-    const wordsPromise = wordsLoaderRef.current.load_words().then(savedWords => setWords(savedWords));
-
+    const usedWordsPromise = wordsLoaderRef.current.load_used_words();
+    const wordsPromise = wordsLoaderRef.current.load_words();
+    
     wordsLoaderRef.current.check_words_updates().then(updateable => setAreWordsUpdateable(updateable));
 
-    Promise.allSettled([usedWordsPromise, wordsPromise]).then(_promises => show_main_container());
+    Promise.all([usedWordsPromise, wordsPromise]).then(([usedWords, words]) => {
+      setUsedWords(usedWords);
+      setWords(words);
+
+      firstCharacterRef.current = WordGame.get_next_first_character(usedWords.at(-1) ?? "").toUpperCase();
+
+      show_main_container();
+    });
   }, []);
   
   useEffect(() => {
