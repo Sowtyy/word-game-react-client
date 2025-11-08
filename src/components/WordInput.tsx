@@ -19,7 +19,7 @@ export function WordInput({className, isSendingInput, firstCharacterRef, usedWor
   const {t} = useTranslation();
   
   async function on_word_submit() {
-    if (isSendingInput) return;
+    if (to_show_alert() || isSendingInput) return;
     const validated = validate_input(input);
     if (!validated) return;
     submitWord(validated);
