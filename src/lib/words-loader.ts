@@ -9,6 +9,7 @@ export class WordsLoader {
   readonly words_url = "api/words.json";
   readonly words_sub_storage_name = "words";
   readonly timestamp_sub_storage_name = "timestamp";
+  readonly used_words_sub_storage_name = "used-words";
   
   store_name: string;
   storage_name: string;
@@ -81,5 +82,13 @@ export class WordsLoader {
       return await this.fetch_words_then_save();
     }
     return saved;
+  }
+
+  async load_used_words() {
+    return (await this.localForage.getItem<string[]>(this.used_words_sub_storage_name)) ?? [];
+  }
+
+  save_used_words(usedWords: string[]) {
+    return this.localForage.setItem(this.used_words_sub_storage_name, usedWords);
   }
 }

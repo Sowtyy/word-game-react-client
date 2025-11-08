@@ -18,6 +18,9 @@ function App() {
 
   useEffect(() => {
     (async () => {
+      setUsedWords(await wordsLoaderRef.current.load_used_words());
+    })();
+    (async () => {
       const savedWords = await wordsLoaderRef.current.load_words();
       setWords(savedWords);
       setAreWordsUpdateable(await wordsLoaderRef.current.check_words_updates());
@@ -40,6 +43,7 @@ function App() {
   function on_reset() {
     setUsedWords([]);
     firstCharacterRef.current = "";
+    wordsLoaderRef.current.save_used_words([]);
   }
   
   function scroll_used_words_to_bottom() {
@@ -65,8 +69,11 @@ function App() {
 
     if (!newWord) throw new Error("Couldn't find suitable new word");
 
-    setUsedWords(usedWords => [...usedWords, newWord]);
+    newUsedWords.push(newWord);
+    setUsedWords(newUsedWords);
+
     firstCharacterRef.current = WordGame.get_next_first_character(newWord).toUpperCase();
+    wordsLoaderRef.current.save_used_words(newUsedWords);
   }
 
   function set_words(words: string[]) {
