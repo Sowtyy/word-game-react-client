@@ -17,15 +17,12 @@ function App() {
   const wordsLoaderRef = useRef(new WordsLoader({storeName: "word-game", storageName: "words"}));
 
   useEffect(() => {
-    (async () => {
-      const usedWordsPromise = wordsLoaderRef.current.load_used_words().then(savedUsedWords => setUsedWords(savedUsedWords));
-      const wordsPromise = wordsLoaderRef.current.load_words().then(savedWords => setWords(savedWords));
+    const usedWordsPromise = wordsLoaderRef.current.load_used_words().then(savedUsedWords => setUsedWords(savedUsedWords));
+    const wordsPromise = wordsLoaderRef.current.load_words().then(savedWords => setWords(savedWords));
 
-      wordsLoaderRef.current.check_words_updates().then(updateable => setAreWordsUpdateable(updateable));
+    wordsLoaderRef.current.check_words_updates().then(updateable => setAreWordsUpdateable(updateable));
 
-      await Promise.allSettled([usedWordsPromise, wordsPromise]);
-      show_main_container();
-    })();
+    Promise.allSettled([usedWordsPromise, wordsPromise]).then(_promises => show_main_container());
   }, []);
   
   useEffect(() => {
