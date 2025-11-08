@@ -19,11 +19,14 @@ function App() {
   useEffect(() => {
     (async () => {
       setUsedWords(await wordsLoaderRef.current.load_used_words());
-    })();
-    (async () => {
+
       const savedWords = await wordsLoaderRef.current.load_words();
       setWords(savedWords);
       setAreWordsUpdateable(await wordsLoaderRef.current.check_words_updates());
+
+      const mainElement = document.getElementById("main-container");
+      mainElement?.animate({opacity: [0, 1]}, {duration: 500});
+      mainElement?.classList.remove("opacity-0");
     })();
   }, []);
   
@@ -84,7 +87,7 @@ function App() {
   return (
     <ThemeProvider storageKey='word-game-theme'>
       <LanguageProvider storageName='word-game-language'>
-        <div className='p-[15px_1.5%_0] h-full gap-4 flex flex-col'>
+        <div id='main-container' className='p-[15px_1.5%_0] h-full gap-4 flex flex-col opacity-0'>
           <UpperContainer className='mx-5' usedWords={usedWords} resetUsedWords={on_reset} updateWords={set_words} wordsLoaderRef={wordsLoaderRef} toShowUpdateButton={areWordsUpdateable}></UpperContainer>
           <div className='flex flex-col gap-5 h-full overflow-hidden'>
             <UsedWordsList className='flex-grow' usedWords={usedWords}></UsedWordsList>
