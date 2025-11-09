@@ -20,7 +20,10 @@
       "language": "Language",
       "language_en": "English",
       "language_ru": "Russian",
-      "words_update": "Update words"
+      "words_update": "Update words",
+      "new_word_not_found": "Couldn't find suitable new word.",
+      "words_download_error": "Error downloading words.",
+      "words_update_check_error": "Error checking for word updates."
     }
   },
   "ru": {
@@ -44,7 +47,10 @@
       "language": "Язык",
       "language_en": "Английский",
       "language_ru": "Русский",
-      "words_update": "Обновить слова"
+      "words_update": "Обновить слова",
+      "new_word_not_found": "Не смог найти подходящее новое слово.",
+      "words_download_error": "Ошибка при загрузке слов.",
+      "words_update_check_error": "Ошибка при проверке обновлений слов."
     }
   }
 }

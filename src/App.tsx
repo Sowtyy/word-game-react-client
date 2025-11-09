@@ -7,8 +7,12 @@ import { UpperContainer } from './components/UpperContainer';
 import { LanguageProvider } from './components/LanguageProvider';
 import { WordGame } from './lib/word-game';
 import { WordsLoader } from './lib/words-loader';
+import { Toaster } from './components/ui/sonner';
+import { useTranslation } from 'react-i18next';
+import { Toast } from './lib/toast';
 
 function App() {
+  const {t} = useTranslation();
   const [usedWords, setUsedWords] = useState<string[]>([]);
   const [isSendingInput, setIsSendingInput] = useState(false);
   const [words, setWords] = useState<string[]>([]);
@@ -20,7 +24,9 @@ function App() {
     const usedWordsPromise = wordsLoaderRef.current.load_used_words();
     const wordsPromise = wordsLoaderRef.current.load_words();
     
-    wordsLoaderRef.current.check_words_updates().then(updateable => setAreWordsUpdateable(updateable));
+    wordsLoaderRef.current.check_words_updates()
+    .then(updateable => setAreWordsUpdateable(updateable))
+    .catch(_reason => Toast.error(t("words_update_check_error")));
 
     Promise.all([usedWordsPromise, wordsPromise]).then(([usedWords, words]) => {
       setUsedWords(usedWords);
@@ -78,7 +84,10 @@ function App() {
       ignore.push(newFirstCharacter);
     }
 
-    if (!newWord) throw new Error("Couldn't find suitable new word");
+    if (!newWord) {
+      Toast.error(t("new_word_not_found"));
+      return;
+    }
 
     newUsedWords.push(newWord);
     setUsedWords(newUsedWords);
@@ -102,6 +111,7 @@ function App() {
             <WordInput className='mb-5 h-auto shrink-0' isSendingInput={isSendingInput} firstCharacterRef={firstCharacterRef} usedWords={usedWords} words={words} submitWord={on_word_submit}></WordInput>
           </div>
         </div>
+        <Toaster expand={true} position='top-center'></Toaster>
       </LanguageProvider>
     </ThemeProvider>
   )

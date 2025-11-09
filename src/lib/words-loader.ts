@@ -66,7 +66,7 @@ export class WordsLoader {
     const currentTimestamp = await this._load_words_timestamp();
     if (!currentTimestamp) return true;
     const latestTimestamp = await this._fetch_words_timestamp();
-    if (!latestTimestamp) return false;
+    if (!latestTimestamp) throw new Error("Error fetching latest words timestamp.");
     return currentTimestamp < latestTimestamp;
   }
 

@@ -3,6 +3,7 @@ import { Button } from "./ui/button";
 import { useState, type RefObject } from "react";
 import { useTranslation } from "react-i18next";
 import { WordsLoader } from "@/lib/words-loader";
+import { Toast } from "@/lib/toast";
 
 interface UpdateButtonProps {
   className?: string,
@@ -17,7 +18,15 @@ export function UpdateButton({className, updateWords, wordsLoaderRef}: UpdateBut
   async function update_words() {
     if (isUpdating) return;
     setIsUpdating(true);
-    const newWords = await wordsLoaderRef.current.fetch_words_then_save();
+    let newWords: string[] | undefined = undefined;
+    try {
+      newWords = await wordsLoaderRef.current.fetch_words_then_save();
+    }
+    catch (error) {
+      Toast.error(t("words_download_error"));
+      setIsUpdating(false);
+      return;
+    }
     updateWords(newWords);
     setIsUpdating(false);
   }
