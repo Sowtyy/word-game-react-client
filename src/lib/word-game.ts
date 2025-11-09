@@ -4,12 +4,13 @@ export class WordGame {
   }
 
   static get_available_words(firstCharacter: string, usedWords: string[], words: string[], lastOpponentFirstCharacter: string) {
+    if (!firstCharacter) return [];
     return words.filter(word => word.startsWith(firstCharacter) && !usedWords.includes(word) && word.at(-1) != lastOpponentFirstCharacter);
   }
 
   static get_random_available_word(firstCharacter: string, usedWords: string[], words: string[], lastOpponentFirstCharacter: string) {
     const available = this.get_available_words(firstCharacter, usedWords, words, lastOpponentFirstCharacter);
-    if (!available) return "";
+    if (!available.length) return "";
     return available[this._get_random_number(0, available.length - 1)];
   }
 
