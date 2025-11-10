@@ -15,7 +15,7 @@ function App() {
   const [areWordsUpdateable, setAreWordsUpdateable] = useState(false);
   const firstCharacterRef = useRef("");
   const wordsLoaderRef = useRef(new WordsLoader({storeName: "word-game", storageName: "words"}));
-  const {t} = useTranslation();
+  const {t, i18n} = useTranslation();
 
   useEffect(() => {    
     const usedWordsPromise = wordsLoaderRef.current.load_used_words();
@@ -23,7 +23,7 @@ function App() {
     
     wordsLoaderRef.current.check_words_updates()
     .then(updateable => setAreWordsUpdateable(updateable))
-    .catch(_reason => Toast.error(t("words_update_check_error")));
+    .catch(_reason => Toast.error(t("words_update_check_error", {lng: i18n.language}))); // uses default language here if 'lng' is not overridden
 
     Promise.all([usedWordsPromise, wordsPromise]).then(([usedWords, words]) => {
       setUsedWords(usedWords);
