@@ -1,26 +1,23 @@
 import { useEffect, useRef, useState } from 'react';
 import './App.css';
 import { ThemeProvider } from './components/ThemeProvider';
-import { WordInput } from './components/WordInput';
-import { UsedWordsList } from './components/UsedWordsList';
-import { UpperContainer } from './components/UpperContainer';
 import { LanguageProvider } from './components/LanguageProvider';
 import { WordGame } from './lib/word-game';
 import { WordsLoader } from './lib/words-loader';
 import { Toaster } from './components/ui/sonner';
+import { MainContainer } from './components/MainContainer';
 import { useTranslation } from 'react-i18next';
 import { Toast } from './lib/toast';
 
 function App() {
-  const {t} = useTranslation();
   const [usedWords, setUsedWords] = useState<string[]>([]);
-  const [isSendingInput, setIsSendingInput] = useState(false);
   const [words, setWords] = useState<string[]>([]);
   const [areWordsUpdateable, setAreWordsUpdateable] = useState(false);
   const firstCharacterRef = useRef("");
   const wordsLoaderRef = useRef(new WordsLoader({storeName: "word-game", storageName: "words"}));
+  const {t} = useTranslation();
 
-  useEffect(() => {
+  useEffect(() => {    
     const usedWordsPromise = wordsLoaderRef.current.load_used_words();
     const wordsPromise = wordsLoaderRef.current.load_words();
     
@@ -37,30 +34,11 @@ function App() {
       show_main_container();
     });
   }, []);
-  
-  useEffect(() => {
-    scroll_used_words_to_bottom();
-  }, [usedWords]);
-  
-  async function on_word_submit(value: string) {
-    value = value.toLowerCase();
-    setIsSendingInput(true);
-    process_word_input(value);
-    setIsSendingInput(false);
-    scroll_used_words_to_bottom();
-    document.getElementById("word-input-area")?.focus();
-  }
 
   function on_reset() {
     setUsedWords([]);
     firstCharacterRef.current = "";
     wordsLoaderRef.current.save_used_words([]);
-  }
-  
-  function scroll_used_words_to_bottom() {
-    const element = document.querySelector("#used-words-main-container div[data-radix-scroll-area-viewport]");
-    if (!element) return;
-    element.scroll({left: 0, top: element.scrollHeight, behavior: "smooth"});
   }
 
   function show_main_container() {
@@ -104,13 +82,18 @@ function App() {
   return (
     <ThemeProvider storageKey='word-game-theme'>
       <LanguageProvider storageName='word-game-language'>
-        <div id='main-container' className='p-[15px_1.5%_0] h-full gap-4 flex flex-col opacity-0'>
-          <UpperContainer className='mx-5' usedWords={usedWords} resetUsedWords={on_reset} updateWords={set_words} wordsLoaderRef={wordsLoaderRef} toShowUpdateButton={areWordsUpdateable}></UpperContainer>
-          <div className='flex flex-col gap-5 h-full overflow-hidden'>
-            <UsedWordsList className='flex-grow' usedWords={usedWords}></UsedWordsList>
-            <WordInput className='mb-5 h-auto shrink-0' isSendingInput={isSendingInput} firstCharacterRef={firstCharacterRef} usedWords={usedWords} words={words} submitWord={on_word_submit}></WordInput>
-          </div>
-        </div>
+        <MainContainer
+          id='main-container'
+          className='opacity-0'
+          usedWords={usedWords}
+          words={words}
+          firstCharacterRef={firstCharacterRef}
+          wordsLoaderRef={wordsLoaderRef}
+          resetUsedWords={on_reset}
+          updateWords={set_words}
+          areWordsUpdateable={areWordsUpdateable}
+          processWordInput={process_word_input}>
+        </MainContainer>
         <Toaster expand={true} position='top-center'></Toaster>
       </LanguageProvider>
     </ThemeProvider>
