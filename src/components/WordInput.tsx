@@ -63,7 +63,7 @@ export function WordInput({className, isSendingInput, firstCharacterRef, usedWor
   return (
     <div className={'flex flex-col gap-4 ' + className}>
       <div className='flex gap-2'>
-        <Input id='word-input-area' className={to_show_alert() ? 'focus:border-destructive!' : ''} onChange={on_input_change} placeholder={t(firstCharacterRef.current ? "word_input_placeholder" : "word_input_placeholder_default", {character: firstCharacterRef.current})} onKeyDown={on_input_key_down} value={input}></Input>
+        <Input autoFocus id='word-input-area' className={to_show_alert() ? 'focus:border-destructive!' : ''} onChange={on_input_change} placeholder={t(firstCharacterRef.current ? "word_input_placeholder" : "word_input_placeholder_default", {character: firstCharacterRef.current})} onKeyDown={on_input_key_down} value={input}></Input>
         <Button disabled={to_show_alert() || isSendingInput} type='submit' variant='outline' onClick={on_word_submit}>
           {isSendingInput ? (
             <LoaderCircle className='animate-spin'/>
