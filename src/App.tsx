@@ -14,7 +14,7 @@ function App() {
   const [words, setWords] = useState<string[]>([]);
   const [areWordsUpdateable, setAreWordsUpdateable] = useState(false);
   const firstCharacterRef = useRef("");
-  const wordsLoaderRef = useRef(new WordsLoader({storeName: "word-game", storageName: "words"}));
+  const wordsLoaderRef = useRef(new WordsLoader({storeName: "word_game", storageName: "words"}));
   const {t, i18n} = useTranslation();
 
   useEffect(() => {    
@@ -80,8 +80,8 @@ function App() {
   }
   
   return (
-    <ThemeProvider storageKey='word-game-theme'>
-      <LanguageProvider storageName='word-game-language'>
+    <ThemeProvider storageKey='word_game_theme'>
+      <LanguageProvider storageName='word_game_language'>
         <MainContainer
           id='main-container'
           className='opacity-0'

@@ -11,7 +11,7 @@ const vitePWAOptions: Partial<VitePWAOptions> = {
   includeManifestIcons: true,
   includeAssets: ["**/*"],
   workbox: {
-    cacheId: "word-game"
+    cacheId: "word_game"
   }
 };
 
