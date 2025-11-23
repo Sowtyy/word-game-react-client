@@ -1,16 +1,36 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="mobile-web-app-capable" content="yes" />
-    <link rel="icon" href="images/icon-192.png" />
-    <link rel="apple-touch-icon" sizes="192x192" href="images/icon-192.png" />
-    <link rel="manifest" href="manifest.webmanifest">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, initial-scale=1, minimum-scale=1, maximum-scale=1, interactive-widget=resizes-content" />
-    <title>Word Game</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Word Game | SWTY</title>
+</head>
+<body>
+  <h1 id="body-title">Word Game</h1>
+  <a href="/" id="link-root">Main page</a>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="" id="reset-button" onclick="onResetClick(event)">Reset progress</a>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="" id="language-change" onclick="onLanguageChange(event)">English</a>
+
+  <br><br><br>
+
+  <p id="previous-words-number">Words used: 0</p>
+  <textarea name="previous-words" id="previous-words" cols="30" rows="10" readonly></textarea>
+
+  <br><br>
+  
+  <form onsubmit="onInputWordSubmit(event)">
+    <input type="text" name="input-word" id="input-word" required>
+    <!--<textarea name="input-word" id="input-word" cols="30" rows="1" required></textarea>-->
+    <input type="submit" value="Submit" id="submit-word">
+  </form>
+  
+  <script src="./localforage.js"></script>
+
+  <script src="./constants.js"></script>
+  <script src="./script.js"></script>
+</body>
 </html>
