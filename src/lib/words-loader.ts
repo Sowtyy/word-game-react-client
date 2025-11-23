@@ -6,7 +6,7 @@ interface WordsLoaderOptions {
 }
 
 export class WordsLoader {
-  readonly words_url = "api/words.json";
+  readonly words_url = "words.json";
   readonly words_sub_storage_name = "words";
   readonly timestamp_sub_storage_name = "timestamp";
   readonly used_words_sub_storage_name = "used_words";

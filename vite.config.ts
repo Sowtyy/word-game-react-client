@@ -50,6 +50,10 @@ export default defineConfig({
       "/manifest.json": {
         target: "http://localhost:8080",
         changeOrigin: true
+      },
+      "/words.json": {
+        target: "http://localhost:8080",
+        changeOrigin: true
       }
     }
   }
